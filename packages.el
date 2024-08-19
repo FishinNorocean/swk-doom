@@ -50,3 +50,8 @@
 ;; (unpin! t)
 
 
+(package! buffer-move)
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+(package! org-fragtog)
+;; (package! chatgpt-shell)

@@ -1,0 +1,3 @@
+[submodule "customized_packages/emacs-chinese-word-segmentation"]
+	path = customized_packages/emacs-chinese-word-segmentation
+	url = https://github.com/kanglmf/emacs-chinese-word-segmentation.git

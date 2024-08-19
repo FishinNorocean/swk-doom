@@ -78,7 +78,88 @@
 
 ;; my own configuration starts here
 
+(defconst *is-a-mac* (eq system-type 'darwin))
+
+(add-hook 'window-setup-hook #'toggle-frame-maximized)
+
+(setq doom-font (font-spec :size 16))
+(setq use-short-answers nil)
+;; (load! "modules/init-utils")
+
 (when (getenv "WAYLAND_DISPLAY") (load! "modules/init-wl-clip"))
 
-(load! "modules/init-preload-local")
-(load! "modules/init-chinese")
+;; keybindings and some previous preloads
+
+(map! "C-x C-k" 'kill-this-buffer
+      "C-c '" 'comment-or-uncomment-region
+      "RET" 'newline-and-indent
+      "C-j" nil
+      "C-t" nil
+      "M-w" 'kill-region
+      "C-w" 'kill-ring-save
+      "C-c '" 'comment-or-uncomment-region
+      "C-t C-t" 'vterm
+      "M-n" (lambda () (interactive) (forward-line 10))
+      "M-p" (lambda () (interactive) (forward-line -10))
+      "C-S-c" 'kill-ring-save
+      "C-S-v" 'yank)
+
+(after! consult
+  (map! "C-s" #'consult-line
+        "C-S-s" #'consult-line-multi))
+(after! avy
+  (map!
+   "C-j C-SPC" #'avy-goto-char-timer
+   "C-j C-k"   #'avy-move-line
+   "C-j M-k"   #'avy-kill-ring-save-whole-line
+   "C-j C-l"   #'avy-copy-line
+   "C-j C-i"   #'avy-copy-region
+   "C-j C-w"   #'avy-kill-ring-save-region
+   "C-j M-w"   #'avy-kill-region))
+
+
+;; Normal files
+
+(load! "modules/pack-config")
+(load! "modules/init-customized-packages")
+(after! org (load! "modules/init-org"))
+(after! doom-modeline
+  (setq doom-modeline-total-line-number t)
+  (setq doom-modeline-battery t)
+  (setq display-time-format "%A %b%d %R")
+  (setq display-time-default-load-average nil)
+  ;; (setq doom-modeline-check-simple-format t)
+  ;; (setq doom-modeline-major-mode-icon t)
+  (setq doom-modeline-enable-word-count t)
+  (setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+  ;;(setq doom-modeline-buffer-encoding nil)
+  ;; (setq doom-modeline-indent-info nil)
+  (if *is-a-mac*
+      (display-time-mode 1))
+  ; (setq doom-modeline-buffer-encoding nil)
+  ;; (setq doom-modeline-env-version t)
+  )
+
+(after! latex
+  (add-hook 'latex-mode-hook
+	    (lambda () (local-set-key (kbd "C-j") nil)))
+  (setq-default TeX-engine 'xetex)
+  (setq-default TeX-PDF-mode t)
+  (define-key LaTeX-mode-map (kbd "C-<return>") 'copilot-accept-completion)
+  (define-key LaTeX-mode-map (kbd "C-j") nil)
+  (define-key LaTeX-mode-map (kbd "C-j C-SPC") 'avy-goto-char-timer)
+  (define-key LaTeX-mode-map (kbd "C-j C-k") 'avy-move-line)
+  (define-key LaTeX-mode-map (kbd "C-j M-k") 'avy-kill-ring-save-whole-line)
+  (define-key LaTeX-mode-map (kbd "C-j C-l") 'avy-copy-line)
+  (define-key LaTeX-mode-map (kbd "C-j C-i") 'avy-copy-region)
+  (define-key LaTeX-mode-map (kbd "C-j C-w") 'avy-kill-ring-save-region)
+  (define-key LaTeX-mode-map (kbd "C-j M-w") 'avy-kill-region))
+
+;; (use-package! chatgpt-shell
+;;   :custom
+;;   ((chatgpt-shell-api-url-base "https://gptswkser.openai.azure.com")
+;;    (chatgpt-shell-api-url-path "/openai/deployments/swk_35/chat/completions?api-version=2024-02-15-preview")
+;;    (chatgpt-shell-openai-key
+;;     (lambda ()
+;;       (auth-source-pick-first-password :host "gptswkser.openai.azure.com")))
+;;    (chatgpt-shell-auth-header (lambda () (format "api-key: %s" (chatgpt-shell-openai-key))))))
