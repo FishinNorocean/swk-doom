@@ -17,13 +17,13 @@
   (setq centaur-tabs-icon-type 'nerd-icons)
   :bind ; Bind `dirvish|dirvish-side|dirvish-dwim' as you see fit
   (("C-c f" . dirvish-fd)
-   ("C-x d" . dirvish)
+   ;;("C-x d" . dirvish)
    :map dirvish-mode-map ; Dirvish inherits `dired-mode-map'
    ("a"   . dirvish-quick-access)
    ("TAB" . dirvish-subtree-toggle)
    ("C-b" . dired-up-directory)
    ("C-f" . dired-find-file)
-   ("M-t" . dirvish-layout-toggle)
+   ("M-S-t" . dirvish-layout-toggle)
    ))
 
 (use-package! buffer-move

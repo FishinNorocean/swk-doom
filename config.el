@@ -82,8 +82,15 @@
 
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
-(setq doom-font (font-spec :size 16))
-(setq use-short-answers nil)
+(global-unset-key (kbd "C-j"))
+
+(setq doom-font (font-spec :family "DejaVu Sans Mono" :size 16)
+      doom-variable-pitch-font (font-spec :family "Open Sans")
+      doom-unicode-font (font-spec :family "DejaVu Sans Mono")
+      doom-big-font (font-spec :family "DejaVu Sans Mono" :size 19))
+
+(setq use-short-answers t)
+(setq fancy-splash-image (expand-file-name "doom-vapourwave.png" doom-private-dir))
 ;; (load! "modules/init-utils")
 
 (when (getenv "WAYLAND_DISPLAY") (load! "modules/init-wl-clip"))
@@ -93,7 +100,6 @@
 (map! "C-x C-k" 'kill-this-buffer
       "C-c '" 'comment-or-uncomment-region
       "RET" 'newline-and-indent
-      "C-j" nil
       "C-t" nil
       "M-w" 'kill-region
       "C-w" 'kill-ring-save
@@ -107,15 +113,27 @@
 (after! consult
   (map! "C-s" #'consult-line
         "C-S-s" #'consult-line-multi))
-(after! avy
-  (map!
-   "C-j C-SPC" #'avy-goto-char-timer
-   "C-j C-k"   #'avy-move-line
-   "C-j M-k"   #'avy-kill-ring-save-whole-line
-   "C-j C-l"   #'avy-copy-line
-   "C-j C-i"   #'avy-copy-region
-   "C-j C-w"   #'avy-kill-ring-save-region
-   "C-j M-w"   #'avy-kill-region))
+
+(use-package! avy
+  :bind
+  (("C-j C-SPC" . avy-goto-char-timer)
+   ("C-j C-k" . avy-move-line)
+   ("C-j M-k" . avy-kill-ring-save-whole-line)
+   ("C-j C-l" . avy-copy-line)
+   ("C-j C-i" . avy-copy-region)
+   ("C-j C-w" . avy-kill-ring-save-region)
+   ("C-j M-w" . avy-kill-region)))
+
+
+;; (after! avy
+;;   (map!
+;;    "C-j C-SPC" #'avy-goto-char-timer
+;;    "C-j C-k"   #'avy-move-line
+;;    "C-j M-k"   #'avy-kill-ring-save-whole-line
+;;    "C-j C-l"   #'avy-copy-line
+;;    "C-j C-i"   #'avy-copy-region
+;;    "C-j C-w"   #'avy-kill-ring-save-region
+;;    "C-j M-w"   #'avy-kill-region))
 
 
 ;; Normal files
@@ -163,3 +181,26 @@
 ;;     (lambda ()
 ;;       (auth-source-pick-first-password :host "gptswkser.openai.azure.com")))
 ;;    (chatgpt-shell-auth-header (lambda () (format "api-key: %s" (chatgpt-shell-openai-key))))))
+
+(use-package! langtool
+  :config
+  (setq langtool-default-language "en-US")
+  (setq langtool-java-classpath nil)
+  (setq langtool-language-tool-jar
+      (expand-file-name "~/.local/opt/LanguageTool-6.4/languagetool-commandline.jar")))
+
+(after! flyspell
+  (map! "C-;" 'flyspell-correct-wrapper))
+
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy))
+
+(after! highlight-indent-guides
+  (setq highlight-indent-guides-auto-enabled t)
+  (setq highlight-indent-guides-method 'column)
+  (setq highlight-indent-guides-auto-odd-face-perc 70)
+  (setq highlight-indent-guides-auto-even-face-perc 80)
+  (setq highlight-indent-guides-auto-character-face-perc 80)
+  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
+  (set-face-background 'highlight-indent-guides-even-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray"))
