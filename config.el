@@ -197,7 +197,7 @@
 
 (after! highlight-indent-guides
   (setq highlight-indent-guides-auto-enabled t)
-  (setq highlight-indent-guides-method 'column)
+  (setq highlight-indent-guides-method 'character)
   (setq highlight-indent-guides-auto-odd-face-perc 70)
   (setq highlight-indent-guides-auto-even-face-perc 80)
   (setq highlight-indent-guides-auto-character-face-perc 80)
