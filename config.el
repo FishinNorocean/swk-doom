@@ -32,7 +32,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-dracula)
+(setq doom-theme 'doom-city-lights)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -140,7 +140,7 @@
 
 (load! "modules/pack-config")
 (load! "modules/init-customized-packages")
-(after! org (load! "modules/init-org"))
+(load! "modules/init-org")
 (after! doom-modeline
   (setq doom-modeline-total-line-number t)
   (setq doom-modeline-battery t)
@@ -154,7 +154,7 @@
   ;; (setq doom-modeline-indent-info nil)
   (if *is-a-mac*
       (display-time-mode 1))
-  ; (setq doom-modeline-buffer-encoding nil)
+                                        ; (setq doom-modeline-buffer-encoding nil)
   ;; (setq doom-modeline-env-version t)
   )
 
@@ -187,7 +187,7 @@
   (setq langtool-default-language "en-US")
   (setq langtool-java-classpath nil)
   (setq langtool-language-tool-jar
-      (expand-file-name "~/.local/opt/LanguageTool-6.4/languagetool-commandline.jar")))
+        (expand-file-name "~/.local/opt/LanguageTool-6.4/languagetool-commandline.jar")))
 
 (after! flyspell
   (map! "C-;" 'flyspell-correct-wrapper))
@@ -197,10 +197,16 @@
 
 (after! highlight-indent-guides
   (setq highlight-indent-guides-auto-enabled t)
-  (setq highlight-indent-guides-method 'character)
-  (setq highlight-indent-guides-auto-odd-face-perc 70)
-  (setq highlight-indent-guides-auto-even-face-perc 80)
-  (setq highlight-indent-guides-auto-character-face-perc 80)
-  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
-  (set-face-background 'highlight-indent-guides-even-face "dimgray")
-  (set-face-foreground 'highlight-indent-guides-character-face "dimgray"))
+  (setq highlight-indent-guides-method 'column)
+  (setq highlight-indent-guides-auto-odd-face-perc 40)
+  (setq highlight-indent-guides-auto-even-face-perc 50)
+  (setq highlight-indent-guides-auto-character-face-perc 50)
+  ;; (set-face-background 'highlight-indent-guides-odd-face "darkgray")
+  ;; (set-face-background 'highlight-indent-guides-even-face "dimgray")
+  ;; (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
+  )
+
+(use-package treemacs-nerd-icons
+  :after treemacs
+  :config
+  (treemacs-load-theme "nerd-icons"))

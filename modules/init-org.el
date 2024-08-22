@@ -30,7 +30,7 @@
 ;;   ;; 	(org-toggle-pretty-entities))
 
 
-
+(require 'org)
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 0.75))
 ;;   (setq org-latex-create-formula-image-program 'dvisvgm)
 (setq org-startup-with-inline-images t)
@@ -73,7 +73,7 @@
 (defun swk/pop-to-org-agenda-day ()
   "Visit the org agenda, in the current window or a SPLIT."
   (interactive)
-  ;(org-agenda-list)
+                                        ;(org-agenda-list)
   (org-agenda nil "d")
   ;; (when (not split)
   ;;   (delete-other-windows))
@@ -82,13 +82,13 @@
 (defun swk/pop-to-org-agenda-simple ()
   "Visit the org agenda, in the current window or a SPLIT."
   (interactive)
-  ;(org-agenda-list)
+                                        ;(org-agenda-list)
   (org-agenda nil "c")
   ;; (when (not split)
   ;;   (delete-other-windows))
   )
 
-(define-key global-map (kbd "C-c a") 'swk/pop-to-org-agenda-simple)
+;; m(define-key global-map (kbd "C-c n a") 'swk/pop-to-org-agenda-simple)
 ;; (define-key global-map (kbd "C-c d") 'swk/pop-to-org-agenda-day)
 
 (defun air-org-skip-subtree-if-priority (priority)
@@ -120,7 +120,7 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                    ((org-agenda-skip-function
                      '(or (air-org-skip-subtree-if-priority ?A)
                           (org-agenda-skip-if nil '(scheduled deadline))))))))
-		("d" "Daily agenda and all TODOs"
+	("d" "Daily agenda and all TODOs"
          ((tags "PRIORITY=\"A\""
                 ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
                  (org-agenda-overriding-header "High-priority unfinished tasks:")))
@@ -130,11 +130,11 @@ PRIORITY may be one of the characters ?A, ?B, or ?C."
                                                    (air-org-skip-subtree-if-priority ?A)
                                                    (org-agenda-skip-if nil '(scheduled deadline))))
                     (org-agenda-overriding-header "ALL normal priority tasks:"))))
-         ;((org-agenda-compact-blocks t))
-		 )))
+                                        ;((org-agenda-compact-blocks t))
+	 )))
 
 (setq org-capture-templates
-	  '(("a" "My TODO task format." entry
+      '(("a" "My TODO task format." entry
          (file "~/org/Agenda/todo.org")
          "
 * TODO %?
@@ -152,7 +152,7 @@ SCHEDULED: %t")))
   "Capture a task with my default template."
   (interactive)
   (org-capture nil "a"))
-(define-key global-map (kbd "C-c c") 'swk/org-task-capture)
+;;(define-key global-map (kbd "C-c n c") 'swk/org-task-capture)
 
 
 (use-package! org-fragtog
@@ -170,8 +170,8 @@ SCHEDULED: %t")))
 ;;   (require 'org-roam-export)
 ;;   (org-roam-db-autosync-mode))
 
-  ;; If using org-roam-protocol
-  ;;(require 'org-roam-protocol))
+;; If using org-roam-protocol
+;;(require 'org-roam-protocol))
 
 
 (provide 'init-org)

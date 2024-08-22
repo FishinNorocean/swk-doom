@@ -55,3 +55,4 @@
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
 (package! org-fragtog)
 ;; (package! chatgpt-shell)
+(package! treemacs-nerd-icons)
