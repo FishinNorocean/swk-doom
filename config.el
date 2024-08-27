@@ -83,7 +83,7 @@
 (add-hook 'window-setup-hook #'toggle-frame-maximized)
 
 (global-unset-key (kbd "C-j"))
-
+(pixel-scroll-precision-mode 1)
 (setq doom-font (font-spec :family "DejaVu Sans Mono" :size 16)
       doom-variable-pitch-font (font-spec :family "Open Sans")
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
@@ -93,7 +93,7 @@
 (setq fancy-splash-image (expand-file-name "doom-vapourwave.png" doom-private-dir))
 ;; (load! "modules/init-utils")
 
-(when (getenv "WAYLAND_DISPLAY") (load! "modules/init-wl-clip"))
+;; (when (getenv "WAYLAND_DISPLAY") (load! "modules/init-wl-clip"))
 
 ;; keybindings and some previous preloads
 
@@ -106,9 +106,13 @@
       "C-c '" 'comment-or-uncomment-region
       "C-t C-t" 'vterm
       "M-n" (lambda () (interactive) (forward-line 10))
-      "M-p" (lambda () (interactive) (forward-line -10))
-      "C-S-c" 'kill-ring-save
-      "C-S-v" 'yank)
+      "M-p" (lambda () (interactive) (forward-line -10)))
+;; "C-S-c" 'kill-ring-save
+;; "C-S-v" 'yank)
+
+(map! :leader
+      :desc "Org Task Capture"
+      "X" #'swk/org-task-capture)
 
 (after! consult
   (map! "C-s" #'consult-line
@@ -173,6 +177,7 @@
   (define-key LaTeX-mode-map (kbd "C-j C-w") 'avy-kill-ring-save-region)
   (define-key LaTeX-mode-map (kbd "C-j M-w") 'avy-kill-region))
 
+(setenv "PATH" "/usr/local/texlive/2024/bin/aarch64-linux:$PATH" t)
 ;; (use-package! chatgpt-shell
 ;;   :custom
 ;;   ((chatgpt-shell-api-url-base "https://gptswkser.openai.azure.com")
