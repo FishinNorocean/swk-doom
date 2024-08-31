@@ -80,10 +80,12 @@
 
 (defconst *is-a-mac* (eq system-type 'darwin))
 
-(add-hook 'window-setup-hook #'toggle-frame-maximized)
+;; (add-hook 'window-setup-hook #'toggle-frame-maximized)
+(exec-path-from-shell-initialize)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (global-unset-key (kbd "C-j"))
-(pixel-scroll-precision-mode 1)
+;; (pixel-scroll-precision-mode 1)
 (setq doom-font (font-spec :family "DejaVu Sans Mono" :size 16)
       doom-variable-pitch-font (font-spec :family "Open Sans")
       doom-unicode-font (font-spec :family "DejaVu Sans Mono")
@@ -177,7 +179,7 @@
   (define-key LaTeX-mode-map (kbd "C-j C-w") 'avy-kill-ring-save-region)
   (define-key LaTeX-mode-map (kbd "C-j M-w") 'avy-kill-region))
 
-(setenv "PATH" "/usr/local/texlive/2024/bin/aarch64-linux:$PATH" t)
+
 ;; (use-package! chatgpt-shell
 ;;   :custom
 ;;   ((chatgpt-shell-api-url-base "https://gptswkser.openai.azure.com")

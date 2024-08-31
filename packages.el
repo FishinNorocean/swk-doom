@@ -50,6 +50,7 @@
 ;; (unpin! t)
 
 
+(package! exec-path-from-shell)
 (package! buffer-move)
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
