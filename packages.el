@@ -57,3 +57,5 @@
 (package! org-fragtog)
 ;; (package! chatgpt-shell)
 (package! treemacs-nerd-icons)
+(package! cnfonts)
+(package! ado-mode)

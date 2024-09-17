@@ -81,7 +81,7 @@
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
-       (spell +flyspell +everywhere) ; tasing you for misspelling mispelling
+       (spell +flyspell ) ; tasing you for misspelling mispelling
        grammar           ; tasing grammar mistake every you make
 
        :tools
@@ -92,7 +92,7 @@
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ;;ein               ; tame Jupyter notebooks with emacs
+       ein               ; tame Jupyter notebooks with emacs
        eval     ; run code, run (also, repls)
        lookup ;;+dictionary +offline)              ; navigate your code and its documentation
        lsp               ; M-x vscode
@@ -151,11 +151,11 @@
        ;;nim               ; python + lisp at the speed of c
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +pandoc +pretty +dragandrop)               ; organize your plain life in plain text
+       (org +pandoc +pretty +dragandrop +ipython +jupyter)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       (python +lsp +conda)            ; beautiful is better than ugly
+       (python +lsp +conda +pyright)            ; beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
