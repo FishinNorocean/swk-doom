@@ -40,7 +40,8 @@
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+
+(setq org-directory "~/Dropbox/org/")
 
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
@@ -82,7 +83,9 @@
 
 ;; (add-hook 'window-setup-hook #'toggle-frame-maximized)
 (exec-path-from-shell-initialize)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(if *is-a-mac*
+    (add-to-list 'default-frame-alist '(fullscreen . fullboth))
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
 
 (global-unset-key (kbd "C-j"))
 ;; (pixel-scroll-precision-mode 1)
@@ -99,22 +102,26 @@
 
 ;; keybindings and some previous preloads
 
-(map! "C-x C-k" 'kill-this-buffer
-      "C-c '" 'comment-or-uncomment-region
-      "RET" 'newline-and-indent
-      "C-t" nil
-      "M-w" 'kill-region
-      "C-w" 'kill-ring-save
-      "C-c '" 'comment-or-uncomment-region
-      "C-t C-t" 'vterm
-      "M-n" (lambda () (interactive) (forward-line 10))
-      "M-p" (lambda () (interactive) (forward-line -10)))
+;; (map! "C-x C-k" 'kill-this-buffer
+;;       "C-c '" 'comment-or-uncomment-region
+;;       "RET" 'newline-and-indent
+;;       "C-t" nil
+;;       "M-w" 'kill-region
+;;       "C-w" 'kill-ring-save
+;;       "C-c '" 'comment-or-uncomment-region
+;;       "C-t C-t" 'vterm
+;;       "M-n" (lambda () (interactive) (forward-line 10))
+;;       "M-p" (lambda () (interactive) (forward-line -10)))
 ;; "C-S-c" 'kill-ring-save
 ;; "C-S-v" 'yank)
 
 (map! :leader
       :desc "Org Task Capture"
       "X" #'swk/org-task-capture)
+
+(map! :leader
+      :desc "Org Task view"
+      "A" #'swk/pop-to-org-agenda-simple)
 
 (after! consult
   (map! "C-s" #'consult-line
@@ -144,9 +151,48 @@
 
 ;; Normal files
 
-(load! "modules/pack-config")
+(use-package! dirvish
+  :init
+  (if *is-a-mac* (dirvish-override-dired-mode))
+  :custom
+  (dirvish-quick-access-entries
+   '(("h" "~/"                          "Home")
+     ("d" "~/Downloads/"                "Downloads")
+                                        ;("m" "/mnt/"                       "Drives")
+     ("e" "~/.emacs.d/"                 "emacs.d")
+     ("p" "~/projects/"                 "Projects")
+     ("t" "~/.Trash/"                   "TrashCan")
+     ("o" "~/org/"                      "Org notes")
+     ))
+  :config
+  (setq centaur-tabs-icon-type 'nerd-icons))
+
+(use-package! buffer-move
+  :config
+  (global-set-key (kbd "C-c <left>") 'buf-move-left)
+  (global-set-key (kbd "C-c <right>") 'buf-move-right)
+  (global-set-key (kbd "C-c <up>") 'buf-move-up)
+  (global-set-key (kbd "C-c <down>") 'buf-move-down))
+
+;; accept completion from copilot and fallback to company
+(map! :i "C-<return>" nil
+      :i "M-<return>" nil
+      :i "S-TAB" nil
+      :i "S-<tab>" nil)
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("C-<return>" . 'copilot-accept-completion)
+              ("M-<return>" . 'copilot-accept-completion-by-line)
+              ("S-TAB" . 'copilot-accept-completion-by-word)
+              ("S-<tab>" . 'copilot-accept-completion-by-word)))
+
+(add-hook 'emacs-lisp-mode-hook (lambda () (copilot-mode nil)))
+
 (load! "modules/init-customized-packages")
+
 (load! "modules/init-org")
+
 (after! doom-modeline
   (setq doom-modeline-total-line-number t)
   (setq doom-modeline-battery t)
@@ -225,11 +271,9 @@
    (python . t)
    (jupyter . t)))
 
-;; Enable auto-save mode
-(auto-save-mode 1)
+;; Enable auto-save-visited mode
+(auto-save-visited-mode 1)
 
-;; Set the auto-save interval (in seconds)
-(setq auto-save-timeout 5)  ;; 5 seconds delay
 
 (conda-env-activate "cpws")
 
@@ -243,3 +287,9 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.ado\\'" . ado-mode))
   (add-to-list 'auto-mode-alist '("\\.do\\'" . ado-mode)))
+
+;; 将 C-j 绑定为 nil
+(define-key evil-normal-state-map (kbd "C-j") nil)
+
+;; 将 C-j C-SPC 绑定为 avy-goto-char-timer
+(define-key evil-normal-state-map (kbd "C-j C-SPC") 'avy-goto-char-timer)

@@ -54,8 +54,8 @@
 (package! buffer-move)
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
-(package! org-fragtog)
+;; (package! org-fragtog)
 ;; (package! chatgpt-shell)
 (package! treemacs-nerd-icons)
-(package! cnfonts)
+;; (package! cnfonts)
 (package! ado-mode)

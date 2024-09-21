@@ -15,7 +15,7 @@
      ))
   :config
   (setq centaur-tabs-icon-type 'nerd-icons))
-:bind ; Bind `dirvish|dirvish-side|dirvis;; h-dwim' as you see fit
+;;  :bind ; Bind `dirvish|dirvish-side|dirvis;; h-dwim' as you see fit
 ;; (("C-c f" . dirvish-fd)
 ;;  ;;("C-x d" . dirvish)
 ;;  :map dirvish-mode-map ; Dirvish inherits `dired-mode-map'
